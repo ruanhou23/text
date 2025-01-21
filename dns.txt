@@ -1,0 +1,75 @@
+sudo apt update
+sudo apt install -y bind9 bind9utils bind9-doc dnsutils
+sudo nano /etc/bind/named.conf.local
+
+zone "vluteskill.org" IN {
+    type master; // Primary DNS
+    file "/etc/bind/forward.vluteskill.org.db"; // Forward lookup file
+    allow-update { none; }; // Since this is the primary DNS, it should be none.
+};
+
+zone "1.168.192.in-addr.arpa" IN {
+    type master; // Primary DNS
+    file "/etc/bind/reverse.vluteskill.org.db"; // Reverse lookup file
+    allow-update { none; }; // Since this is the primary DNS, it should be none.
+};
+
+
+sudo cp /etc/bind/db.local /etc/bind/forward.vluteskill.org.db
+sudo nano /etc/bind/forward.vluteskill.org.db
+
+$TTL    604800
+@       IN      SOA     ns1.vluteskill.org. root.vluteskill.org. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+
+@       IN      NS      ns1.vluteskill.org.
+@       IN      A       192.168.1.112
+ns1     IN      A       192.168.1.112
+
+; Mail Exchanger
+vluteskill.org. IN MX 10 mail.vluteskill.org.
+
+; A Records
+www     IN      A       192.168.1.130
+mail    IN      A       192.168.1.150
+
+; CNAME Record
+ftp     IN      CNAME   www.vluteskill.org.
+
+sudo cp /etc/bind/db.127 /etc/bind/reverse.vluteskill.org.db
+sudo nano /etc/bind/reverse.vluteskill.org.db
+
+$TTL    604800
+@       IN      SOA     ns1.vluteskill.org. root.vluteskill.org. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+
+@       IN      NS      ns1.vluteskill.org.
+ns1     IN      A       192.168.1.112
+
+; PTR Records
+112     IN      PTR     ns1.vluteskill.org.
+130     IN      PTR     www.vluteskill.org.
+150     IN      PTR     mail.vluteskill.org.
+
+
+sudo named-checkzone vluteskill.org /etc/bind/forward.vluteskill.org.db
+sudo named-checkzone 1.168.192.in-addr.arpa /etc/bind/reverse.vluteskill.org.db
+sudo named-checkconf
+
+sudo systemctl restart bind9
+
+
+dig @192.168.1.112 www.vluteskill.org
+dig -x 192.168.1.130
+
+sudo journalctl -xe

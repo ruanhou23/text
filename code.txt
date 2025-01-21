@@ -1,0 +1,40 @@
+- sudo timedatectl set-timezone Asia/Ho_Chi_Minh (ko có Hà Nội)
+- timedatectl (kiểm tra lại cài đặt ngày + múi giờ
+sudo asudo add-apt-repository ppa:bamboo-engine/ibus-bamboo
+sudo apt-get update
+sudo apt-get install ibus-bamboo
+(sudo apt-get install ibus-unikey)
+---restart máy---
+---------------------------------------------------------
+cài font chữ
+sudo apt-get -y install ttf-mscorefonts-installer
+---------------------------------------------------------
+tạo user 
+sudo adduser + tên
+tạo group 
+sudo groupadd + tên group
+add user vào group 
+sudo usermod -a -G tên group tên user 
+ktra 
+tail /etc/group
+cat /etc/passwd: kiểm tra ds user 
+sudo deluser username groupname : xóa user trong group
+userdel USERNAME : xóa user 
+---------------------------------------------------------
+touch : tạo tập tin 
+cat : xem thông tin tập tin 
+sudo nano : vào tập tin nào đó để tạo nội dung 
+rm: xóa tập tin , thư mục
+mkdir: tạo thư mục
+chmod -R (r=4,w=2,x=1) + tên thư mục ,tập tin : cấp quyền
+tree : xem cây thư mục
+cp <nguồn><đích> : copy tập tin
+sudo hostnamectl set-hostname : Server-KNN-VLUTE
+sudo ufw enable/disable : bat/tat firewall
+service --status-all: xem cac dich vu da cai dat
+-------------------------------------------------------
+sudo chown -R user1:G_Student /home/minhduy/VLUTE
+sudo chmod -R 764 VLUTE
+------------------------------------------------------
+NFS	
+sudo apt install nfs-kernel-server -y

@@ -1,0 +1,25 @@
+sudo apt update
+sudo apt install samba -y
+sudo mkdir /home/chiase
+sudo chmod 0775 /home/chiase
+sudo chown hau:hau /home/chiase
+sudo nano /etc/samba/smb.conf
+
+[global]
+security = user
+
+[chiase]
+path = /home/chiase
+browseable = yes
+writable = yes
+create mask = 0775
+directory mask = 0775
+valid users = hau
+/
+testparm
+sudo smbpasswd -a hau
+sudo systemctl restart smbd nmbd
+systemctl status smbd.service
+sudo ufw allow samba
+smbclient //IP_UBUNTU/chiase -U hau
+\\IP_UBUNTU\chiase

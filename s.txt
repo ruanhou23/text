@@ -1,0 +1,39 @@
+sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+sudo mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin12345';
+FLUSH PRIVILEGES;
+EXIT;
+mysql -u root -p
+CREATE DATABASE qltk;
+USE qltk;
+
+CREATE TABLE dangnhap (
+    acc_id INT PRIMARY KEY,
+    username VARCHAR(10),
+    password VARCHAR(20)
+);
+
+INSERT INTO dangnhap VALUES (12, 'minhduy', '12345');
+INSERT INTO dangnhap VALUES (13, 'nguyengiap', '12345');
+INSERT INTO dangnhap VALUES (14, 'duchuy', '12345');
+
+SELECT * FROM dangnhap;
+
+CREATE DATABASE qltk;
+USE qltk;
+
+CREATE TABLE dangnhap (
+    acc_id INT PRIMARY KEY,
+    username VARCHAR(10),
+    password VARCHAR(20)
+);
+
+INSERT INTO dangnhap VALUES (12, 'minhduy', '12345');
+INSERT INTO dangnhap VALUES (13, 'nguyengiap', '12345');
+INSERT INTO dangnhap VALUES (14, 'duchuy', '12345');
+
+SELECT * FROM dangnhap;
+EXIT;
+systemctl status mysql.service

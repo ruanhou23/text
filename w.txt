@@ -1,0 +1,53 @@
+sudo apt update
+sudo apt install apache2 -y
+sudo ufw app list
+sudo ufw allow 'Apache'
+sudo ufw enable
+sudo systemctl status apache2
+
+sudo mkdir -p /var/www/intranet
+sudo chmod -R 755 /var/www/intranet
+
+cd /etc/apache2/sites-available/
+sudo cp 000-default.conf intranet.vluteskill.net.conf
+sudo nano intranet.vluteskill.net.conf
+
+<VirtualHost *:8080>
+    ServerAdmin webmaster@localhost
+    ServerName intranet.vluteskill.net
+    ServerAlias www.vluteskill.net
+    DocumentRoot /var/www/intranet
+
+    <Directory /var/www/intranet>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+sudo chmod -R 755 /var/www/intranet
+sudo nano /var/www/intranet/index.html
+
+<html>
+    <head>
+        <title>Welcome to intranet.vluteskill.net!</title>
+    </head>
+    <body>
+        <h1>Success! The intranet.vluteskill.net virtual host is working!</h1>
+    </body>
+</html>
+
+sudo a2ensite intranet.vluteskill.net.conf
+sudo a2dissite 000-default.conf
+
+sudo systemctl restart apache2
+sudo systemctl status apache2
+
+sudo nano /etc/apache2/ports.conf
+
+Listen 8080
+
+sudo systemctl restart apache2
