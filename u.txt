@@ -1,0 +1,7 @@
+sudo adduser sudo groupadd 
+sudo usermod -aG ten_nhom ten_nguoi_dung
+sudo chmod quyền file_or_folder
+sudo chown ten_nguoi_dung file_or_folder
+sudo chgrp ten_nhom file_or_folder
+cat /etc/passwd
+cat /etc/group
